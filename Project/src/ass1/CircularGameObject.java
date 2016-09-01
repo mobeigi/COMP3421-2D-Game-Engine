@@ -16,7 +16,7 @@ public class CircularGameObject extends GameObject {
   
   //Create a CircularGameObject with centre 0,0 and radius 1
   public CircularGameObject(GameObject parent, double[] fillColour,
-                                             double[] lineColour) {
+                            double[] lineColour) {
     super(parent);
     this.radius = 1.0;
     centre = new double[]{0,0};
@@ -26,7 +26,7 @@ public class CircularGameObject extends GameObject {
   
   //Create a CircularGameObject with centre 0,0 and a given radius
   public CircularGameObject(GameObject parent, double radius,double[] fillColour,
-                                                           double[] lineColour) {
+                            double[] lineColour) {
     super(parent);
     this.radius = radius;
     centre = new double[]{0,0};

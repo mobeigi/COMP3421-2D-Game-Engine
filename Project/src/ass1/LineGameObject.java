@@ -103,11 +103,11 @@ public class LineGameObject extends GameObject {
   private void drawLine(GL2 gl) {
     //Draw Line
     gl.glBegin(GL2.GL_LINES);
-      double[] point1 = getPoint1();
-      double[] point2 = getPoint2();
+    double[] point1 = getPoint1();
+    double[] point2 = getPoint2();
     
-      gl.glVertex2d(point1[0], point1[1]);
-      gl.glVertex2d(point2[0], point2[1]);
+    gl.glVertex2d(point1[0], point1[1]);
+    gl.glVertex2d(point2[0], point2[1]);
     gl.glEnd();
   }
 }

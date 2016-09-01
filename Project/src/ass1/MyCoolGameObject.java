@@ -10,8 +10,8 @@ package ass1;
 
 public class MyCoolGameObject extends GameObject {
   
-	public MyCoolGameObject() {
-		super(GameObject.ROOT);
+  public MyCoolGameObject() {
+    super(GameObject.ROOT);
     
     //Colours
     double[] pikachuYellow = {255/255f, 230/255f, 45/255f, 1};
@@ -23,11 +23,11 @@ public class MyCoolGameObject extends GameObject {
     //Create main Pikachu head/body base, also includes feet
     PolygonalGameObject headBody = new PolygonalGameObject(this,
       new double[]{6, -1.5, 5, -2.5, 6, -1.5, 6.5, -1, 7, 0, 7, 1, 6.5, 3, 6, 4, 5, 5.5, 4.5, 7, 3, 8.5, 1, 9, -1, 9,
-                   -3, 8.5, -5, 8, -6, 7, -7.5, 5.5, -8, 3, -8.5, 1, -8.5, -1, -8, -2, -7.5, -2.5, -6, -3, -7.5, -2.5,
-                   -8, -5, -8.5, -8, -8.5, -10, -7.5, -12, -7, -13, -6, -14, -5, -14.5, -4.5, -14.5, -3.5, -14.5, -4.5, -14.5,
-                   -5.5, -16, -4.5, -15.5, -4.5, -16, -4, -15.5, -4, -16.5, -2.5, -14.5, -0.5, -13.5, 3, -14.5,
-                   5, -17, 4.5, -15.5, 5.5, -16, 5, -15.5, 6, -15.5, 4.5, -14, 4, -14, 4.5, -14, 5, -14, 6, -13.5, 6.5, -13,
-                   7, -12, 7.5, -10, 7.5, -7.5, 7.5, -5, 7, -3},
+        -3, 8.5, -5, 8, -6, 7, -7.5, 5.5, -8, 3, -8.5, 1, -8.5, -1, -8, -2, -7.5, -2.5, -6, -3, -7.5, -2.5,
+        -8, -5, -8.5, -8, -8.5, -10, -7.5, -12, -7, -13, -6, -14, -5, -14.5, -4.5, -14.5, -3.5, -14.5, -4.5, -14.5,
+        -5.5, -16, -4.5, -15.5, -4.5, -16, -4, -15.5, -4, -16.5, -2.5, -14.5, -0.5, -13.5, 3, -14.5,
+        5, -17, 4.5, -15.5, 5.5, -16, 5, -15.5, 6, -15.5, 4.5, -14, 4, -14, 4.5, -14, 5, -14, 6, -13.5, 6.5, -13,
+        7, -12, 7.5, -10, 7.5, -7.5, 7.5, -5, 7, -3},
       pikachuYellow,
       black);
     
@@ -108,7 +108,7 @@ public class MyCoolGameObject extends GameObject {
     
     PolygonalGameObject tailBack = new PolygonalGameObject(tail,
       new double[]{7, -12, 7.5, -10, 7.5, -7.5, 9, -7, 7.5, -5, 9.5, -3.5, 7.5, -1, 9, 2,
-                   14, 8, 14, 0.5, 11.5, -1.5, 13, -3.5, 9.5, -5.5, 10.5, -7.5, 9, -9.5},
+        14, 8, 14, 0.5, 11.5, -1.5, 13, -3.5, 9.5, -5.5, 10.5, -7.5, 9, -9.5},
       pikachuYellow,
       black);
     PolygonalGameObject tailCover = new PolygonalGameObject(tail,
@@ -116,9 +116,9 @@ public class MyCoolGameObject extends GameObject {
       pikachuBrown,
       black);
     
-		//Scale to fit default camera
-		this.setScale(0.03);
-		this.setPosition(0, 0.2);
-	}
-
+    //Scale to fit default camera
+    this.setScale(0.03);
+    this.setPosition(0, 0.2);
+  }
+  
 }
