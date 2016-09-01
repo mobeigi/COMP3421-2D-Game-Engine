@@ -142,7 +142,6 @@ public class CircularGameObject extends GameObject {
       drawCircle(gl);
       gl.glPolygonMode(GL2.GL_FRONT_AND_BACK, GL2.GL_FILL); //bug fix
     }
-    
   }
   
   /**

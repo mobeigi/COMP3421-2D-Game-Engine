@@ -7,7 +7,7 @@ import com.jogamp.opengl.glu.GLU;
 /**
  * The camera is a ass1.GameObject that can be moved, rotated and scaled like any other.
  * 
- * TODO: You need to implment the setView() method.
+ * TODO: You need to implement the setView() method.
  *       The methods you need to complete are at the bottom of the class
  *
  * @author malcolmr
@@ -46,16 +46,12 @@ public class Camera extends GameObject {
       gl.glClear(GL.GL_COLOR_BUFFER_BIT);
       
       // TODO 2. set the view matrix to account for the camera's position
-      gl.glMatrixMode(GL2.GL_MODELVIEW_MATRIX);
+      gl.glMatrixMode(GL2.GL_MODELVIEW);
       gl.glLoadIdentity();
       
-      double scale = getGlobalScale();
-      double rotation = getGlobalRotation();
-      double[] position = getGlobalPosition();
-      
-      gl.glScaled(1.0f/scale, 1.0f/scale, 1);
-      gl.glRotated(-rotation, 0, 0, 1);
-      gl.glTranslated(-position[0], -position[1], 0);
+      gl.glScaled(1.0f/getGlobalScale(), 1.0f/getGlobalScale(), 1);
+      gl.glRotated(-getGlobalRotation(), 0, 0, 1);
+      gl.glTranslated(-getGlobalPosition()[0], -getGlobalPosition()[1], 0);
     }
 
     public void reshape(GL2 gl, int x, int y, int width, int height) {

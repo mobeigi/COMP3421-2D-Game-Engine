@@ -28,7 +28,7 @@ public class LineGameObject extends GameObject {
                         double x2, double y2,
                         double[] lineColour) {
     super(parent);
-    this.point1 = new double[]{x1, y1};
+    this.point1 = new double[]{x1,y1};
     this.point2 = new double[]{x2, y2};
     myLineColour = lineColour;
   }

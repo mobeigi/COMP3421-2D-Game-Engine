@@ -12,15 +12,13 @@ import ass1.*;
 
 /**
  * A simple class to view MyCoolGameObject
- *
- * @author angf
  */
 public class TestMyCoolGameObject {
 
 	public static void createTestObjects(){
 		
 		//Should look good when we create using the default constructor
-		//MyCoolGameObject cgo = new MyCoolGameObject();
+		MyCoolGameObject cgo = new MyCoolGameObject();
 		
 		// Should not break if we apply transformations for example
 		// If we uncommented these lines (or wrote other transformations) 
@@ -29,7 +27,7 @@ public class TestMyCoolGameObject {
 		cgo.translate(-0.2,0.2);
 		cgo.rotate(45);
 		cgo.scale(0.25);
-		**/    
+		**/
 	}
    
     /**
@@ -47,7 +45,7 @@ public class TestMyCoolGameObject {
 
         // Create a camera
         Camera camera = new Camera(GameObject.ROOT);
-        
+        camera.setBackground(new float[]{1,1,1,1}); //Added manually for a nice background for MyCoolGameObject
         createTestObjects();
         
         // Add the game engine

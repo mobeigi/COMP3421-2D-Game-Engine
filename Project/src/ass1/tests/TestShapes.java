@@ -18,35 +18,33 @@ import ass1.*;
 public class TestShapes {
 
 	public static void createTestShapes(){
-		
-        // Create a polygon
-        double white[] = {1,1,1,1};
-        double points[] = {0,0,1,1,0,1};
-        PolygonalGameObject p = new PolygonalGameObject(GameObject.ROOT,points,null,white);
-        p.rotate(45);
-        
-        // Create a circle 
-        double cFillCol[] = {1,0.5,0.5,1};
-        CircularGameObject c = new CircularGameObject(ass1.GameObject.ROOT,cFillCol,white);
-        c.setPosition(1, -1);  
-        c.setScale(0.5);  
-       
-        
-        //Create a line
-        double lineCol [] = {0.5,1,0.5,1};
-        LineGameObject l = new LineGameObject(ass1.GameObject.ROOT,0.5,0.5,1,1,lineCol);
-       
-
-        //Create a line that is a child of polygon p
-        double lineCol2 []= {0.5,0.5,1,1};
-        LineGameObject l2 = new LineGameObject(p,lineCol2);     
-        l2.setPosition(-1, 0);
-      
     
-        //Create a circle that is a child of line l2       
-        CircularGameObject c2 = new CircularGameObject(p,0.25,white,white);     
-        c2.translate(-1,0);
-      
+    // Create a polygon
+    double white[] = {1,1,1,1};
+    double points[] = {0,0,1,1,0,1};
+    PolygonalGameObject p = new PolygonalGameObject(GameObject.ROOT,points,null,white);
+    p.rotate(45);
+    
+    // Create a circle
+    double cFillCol[] = {1,0.5,0.5,1};
+    CircularGameObject c = new CircularGameObject(GameObject.ROOT,cFillCol,white);
+    c.setPosition(1, -1);
+    c.setScale(0.5);
+   
+    //Create a line
+    double lineCol [] = {0.5,1,0.5,1};
+    LineGameObject l = new LineGameObject(GameObject.ROOT,0.5,0.5,1,1,lineCol);
+   
+
+    //Create a line that is a child of polygon p
+    double lineCol2 []= {0.5,0.5,1,1};
+    LineGameObject l2 = new LineGameObject(p,lineCol2);
+    l2.setPosition(-1, 0);
+  
+
+    //Create a circle that is a child of line l2
+    CircularGameObject c2 = new CircularGameObject(p,0.25,white,white);
+    c2.translate(-1,0);
 	}
    
     /**
@@ -66,8 +64,7 @@ public class TestShapes {
 
         // Create a camera
         Camera camera = new Camera(GameObject.ROOT);
-        camera.setScale(2); // scale up the camera so we can see more of the world  
-              
+        camera.setScale(2); // scale up the camera so we can see more of the world
         createTestShapes();
         
         // Add the game engine
