@@ -1,5 +1,6 @@
 package ass1;
 
+import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.glu.GLU;
 
@@ -39,10 +40,22 @@ public class Camera extends GameObject {
    
     
     public void setView(GL2 gl) {
-        
-        // TODO 1. clear the view to the background colour
-        
-        // TODO 2. set the view matrix to account for the camera's position         
+      // TODO 1. clear the view to the background colour
+      float[] background = getBackground();
+      gl.glClearColor(background[0], background[1], background[2], background[3]);
+      gl.glClear(GL.GL_COLOR_BUFFER_BIT);
+      
+      // TODO 2. set the view matrix to account for the camera's position
+      gl.glMatrixMode(GL2.GL_MODELVIEW_MATRIX);
+      gl.glLoadIdentity();
+      
+      double scale = getGlobalScale();
+      double rotation = getGlobalRotation();
+      double[] position = getGlobalPosition();
+      
+      gl.glScaled(1.0f/scale, 1.0f/scale, 1);
+      gl.glRotated(-rotation, 0, 0, 1);
+      gl.glTranslated(-position[0], -position[1], 0);
     }
 
     public void reshape(GL2 gl, int x, int y, int width, int height) {
