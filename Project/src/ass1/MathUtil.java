@@ -86,35 +86,51 @@ public class MathUtil {
     /**
      * TODO: A 2D translation matrix for the given offset vector
      * 
-     * @param pos
-     * @return
+     * @param v offset vector
+     * @return 3x3 array of doubles representing 2D translation matrix
      */
     public static double[][] translationMatrix(double[] v) {
-
-        return null;
+      double[][] m = {
+        { 1, 0, v[0]},
+        { 0, 1, v[1]},
+        { 0, 0, 1}
+      };
+      
+      return m;
     }
 
     /**
      * TODO: A 2D rotation matrix for the given angle
      * 
      * @param angle in degrees
-     * @return
+     * @return 3x3 array of doubles representing 2D rotation matrix
      */
     public static double[][] rotationMatrix(double angle) {
-
-
-        return null;
+      double rAngle = Math.toRadians(angle);  //convert to radians for Math functions
+      
+      double[][] m = {
+        { Math.cos(rAngle), -Math.sin(rAngle), 0},
+        { Math.sin(rAngle), Math.cos(rAngle), 0},
+        { 0, 0, 1}
+      };
+  
+      return m;
     }
 
     /**
      * TODO: A 2D scale matrix that scales both axes by the same factor
      * 
      * @param scale
-     * @return
+     * @return 3x3 array of doubles representing 2D scale matrix
      */
     public static double[][] scaleMatrix(double scale) {
-
-        return null;
+      double[][] m = {
+        {scale, 0, 0},
+        { 0, scale, 0},
+        { 0, 0, 1}
+      };
+  
+      return m;
     }
 
     
