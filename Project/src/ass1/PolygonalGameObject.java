@@ -30,7 +30,7 @@ public class PolygonalGameObject extends GameObject {
      * @param parent The parent in the scene tree
      * @param points A list of points defining the polygon
      * @param fillColour The fill colour in [r, g, b, a] form
-     * @param lineColour The outlien colour in [r, g, b, a] form
+     * @param lineColour The outline colour in [r, g, b, a] form
      */
     public PolygonalGameObject(GameObject parent, double points[],
             double[] fillColour, double[] lineColour) {
@@ -114,9 +114,36 @@ public class PolygonalGameObject extends GameObject {
      */
     @Override
     public void drawSelf(GL2 gl) {
-        // TODO: Write this method
-
+      // TODO: Write this method
+      double[] fillColour = getFillColour();
+      double[] lineColour = getLineColour();
+      
+      if (fillColour != null) {
+        gl.glPolygonMode(GL2.GL_FRONT_AND_BACK, GL2.GL_FILL);
+        gl.glColor4d(fillColour[0], fillColour[1], fillColour[2], fillColour[3]);
+        drawPolygon(gl);
+      }
+      
+      if (lineColour != null) {
+        gl.glPolygonMode(GL2.GL_FRONT_AND_BACK, GL2.GL_LINE);
+        gl.glColor4d(lineColour[0], lineColour[1], lineColour[2], lineColour[3]);
+        drawPolygon(gl);
+        gl.glPolygonMode(GL2.GL_FRONT_AND_BACK, GL2.GL_FILL); //bug fix
+      }
     }
-
-
+  
+  /**
+   * Helper function to draw Polygon
+   * @param gl GL2 object
+   */
+  private void drawPolygon(GL2 gl) {
+      double[] points = getPoints();
+      
+      gl.glBegin(GL2.GL_POLYGON);
+        //Each pair of points represent (x,y) coord
+        for (int i = 0; i+1 < points.length; i+=2) {
+          gl.glVertex2d(points[i], points[i+1]);
+        }
+      gl.glEnd();
+    }
 }

@@ -267,18 +267,18 @@ public class GameObject {
   
       gl.glPushMatrix();
       
-      double[] translationPos = getPosition();
-      gl.glTranslated(translationPos[0], translationPos[1], 0);
-      gl.glRotated(getRotation(), 0, 0, 1);
-      gl.glScaled(getScale(), getScale(), 1);
-  
-      // draw the object (Call drawSelf() to draw the object itself)
-      drawSelf(gl);
-  
-      // draw all its children recursively
-      for (GameObject gameObject : getChildren()) {
-        gameObject.draw(gl);
-      }
+        double[] translationPos = getPosition();
+        gl.glTranslated(translationPos[0], translationPos[1], 0);
+        gl.glRotated(getRotation(), 0, 0, 1);
+        gl.glScaled(getScale(), getScale(), 1);
+    
+        // draw the object (Call drawSelf() to draw the object itself)
+        drawSelf(gl);
+    
+        // draw all its children recursively
+        for (GameObject gameObject : getChildren()) {
+          gameObject.draw(gl);
+        }
       
       gl.glPopMatrix();
     }

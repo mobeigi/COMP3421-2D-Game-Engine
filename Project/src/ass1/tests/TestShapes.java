@@ -24,13 +24,14 @@ public class TestShapes {
         double points[] = {0,0,1,1,0,1};
         PolygonalGameObject p = new PolygonalGameObject(GameObject.ROOT,points,null,white);
         p.rotate(45);
-        /*
+        
         // Create a circle 
         double cFillCol[] = {1,0.5,0.5,1};
         CircularGameObject c = new CircularGameObject(ass1.GameObject.ROOT,cFillCol,white);
         c.setPosition(1, -1);  
         c.setScale(0.5);  
        
+        /*
         //Create a line
         double lineCol [] = {0.5,1,0.5,1};
         LineGameObject l = new LineGameObject(ass1.GameObject.ROOT,0.5,0.5,1,1,lineCol);
