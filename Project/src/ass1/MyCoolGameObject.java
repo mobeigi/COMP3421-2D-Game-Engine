@@ -24,13 +24,22 @@ public class MyCoolGameObject extends GameObject {
     PolygonalGameObject headBody = new PolygonalGameObject(this,
       new double[]{6, -1.5, 5, -2.5, 6, -1.5, 6.5, -1, 7, 0, 7, 1, 6.5, 3, 6, 4, 5, 5.5, 4.5, 7, 3, 8.5, 1, 9, -1, 9,
         -3, 8.5, -5, 8, -6, 7, -7.5, 5.5, -8, 3, -8.5, 1, -8.5, -1, -8, -2, -7.5, -2.5, -6, -3, -7.5, -2.5,
-        -8, -5, -8.5, -8, -8.5, -10, -7.5, -12, -7, -13, -6, -14, -5, -14.5, -4.5, -14.5, -3.5, -14.5, -4.5, -14.5,
-        -5.5, -16, -4.5, -15.5, -4.5, -16, -4, -15.5, -4, -16.5, -2.5, -14.5, -0.5, -13.5, 3, -14.5,
-        5, -17, 4.5, -15.5, 5.5, -16, 5, -15.5, 6, -15.5, 4.5, -14, 4, -14, 4.5, -14, 5, -14, 6, -13.5, 6.5, -13,
+        -8, -5, -8.5, -8, -8.5, -10, -7.5, -12, -7, -13, -6, -14, -5, -14.5, -4.5, -14.5, -3.5, -14.5,
+        -2.5, -14.5, -0.5, -13.5, 3, -14.5, 4, -14, 4.5, -14, 5, -14, 6, -13.5, 6.5, -13,
         7, -12, 7.5, -10, 7.5, -7.5, 7.5, -5, 7, -3},
       pikachuYellow,
       black);
     
+    //Feet
+    PolygonalGameObject leftFoot = new PolygonalGameObject(headBody,
+      new double[]{-4.5, -14.5, -5.5, -16, -4.5, -15.5, -4.5, -16, -4, -15.5, -4, -16.5, -2.5, -14.5},
+      pikachuYellow,
+      black);
+    
+    PolygonalGameObject rightFoot = new PolygonalGameObject(headBody,
+      new double[]{3, -14.5, 5, -16.5, 4.5, -15.5, 5.5, -16, 5, -15.5, 6, -15.5, 4.5, -14, 3.5, -14},
+      pikachuYellow,
+      black);
     
     //Eyes and Pupils
     CircularGameObject leftEye = new CircularGameObject(headBody, 1.25, black, null);
@@ -40,7 +49,9 @@ public class MyCoolGameObject extends GameObject {
     rightEye.setPosition(3.5, 3.5);
     
     CircularGameObject leftEyePupil = new CircularGameObject(rightEye, 0.5, white, null);
+    leftEyePupil.setPosition(-0.3, 0.3);
     CircularGameObject rightEyePupil = new CircularGameObject(leftEye, 0.5, white, null);
+    rightEyePupil.setPosition(-0.3, 0.3);
     
     //Nose
     PolygonalGameObject nose = new PolygonalGameObject(headBody,
@@ -103,17 +114,31 @@ public class MyCoolGameObject extends GameObject {
       black,
       null);
     
-    //Tail
+    //Tail - Need to tessellate this manually to avoid severe concave filling issues with tail
     GameObject tail = new GameObject(headBody);
     
-    PolygonalGameObject tailBack = new PolygonalGameObject(tail,
+    PolygonalGameObject tail1 = new PolygonalGameObject(tail, new double[]{14, 8, 14, 0.5, 9, 2}, pikachuYellow, null);
+    PolygonalGameObject tail2 = new PolygonalGameObject(tail, new double[]{14, 0.5, 9, 2, 7.5, -1}, pikachuYellow, null);
+    PolygonalGameObject tail3 = new PolygonalGameObject(tail, new double[]{9, 2, 11.5, -1.5, 14, 0.5}, pikachuYellow, null);
+    PolygonalGameObject tail4 = new PolygonalGameObject(tail, new double[]{9, 2, 7.5, -1, 11.5, -1.5}, pikachuYellow, null);
+    PolygonalGameObject tail5 = new PolygonalGameObject(tail, new double[]{7.5, -1, 11.5, -1.5, 9.5, -3.5}, pikachuYellow, null);
+    PolygonalGameObject tail6 = new PolygonalGameObject(tail, new double[]{11.5, -1.5, 9.5, -3.5, 13, -3.5}, pikachuYellow, null);
+    PolygonalGameObject tail7 = new PolygonalGameObject(tail, new double[]{9.5, -3.5, 13, -3.5, 9.5, -5.5}, pikachuYellow, null);
+    PolygonalGameObject tail8 = new PolygonalGameObject(tail, new double[]{9.5, -3.5, 9.5, -5.5, 7.5, -5}, pikachuYellow, null);
+    PolygonalGameObject tail9 = new PolygonalGameObject(tail, new double[]{9.5, -5.5, 7.5, -5, 10.5, -7.5}, pikachuYellow, null);
+    PolygonalGameObject tail10 = new PolygonalGameObject(tail, new double[]{9, -6.5, 7.5, -5, 10.5, -7.5}, pikachuYellow, null);
+    PolygonalGameObject tail11 = new PolygonalGameObject(tail, new double[]{9, -6.5, 7.5, -5, 9, -7}, pikachuYellow, null);
+    
+    PolygonalGameObject tailCover1 = new PolygonalGameObject(tail, new double[]{9, -6.5, 9, -7, 10.5, -7.5}, pikachuBrown, null);
+    PolygonalGameObject tailCover2 = new PolygonalGameObject(tail, new double[]{9, -7, 10.5, -7.5, 9, -9.5}, pikachuBrown, null);
+    PolygonalGameObject tailCover3 = new PolygonalGameObject(tail, new double[]{9, -7, 9, -9.5, 7.5, -7.5}, pikachuBrown, null);
+    PolygonalGameObject tailCover4 = new PolygonalGameObject(tail, new double[]{9, -9.5, 7.5, -7.5, 7.5, -10}, pikachuBrown, null);
+    PolygonalGameObject tailCover5 = new PolygonalGameObject(tail, new double[]{9, -9.5, 7.5, -10, 7, -12}, pikachuBrown, null);
+    
+    PolygonalGameObject tailOutline = new PolygonalGameObject(tail,
       new double[]{7, -12, 7.5, -10, 7.5, -7.5, 9, -7, 7.5, -5, 9.5, -3.5, 7.5, -1, 9, 2,
         14, 8, 14, 0.5, 11.5, -1.5, 13, -3.5, 9.5, -5.5, 10.5, -7.5, 9, -9.5},
-      pikachuYellow,
-      black);
-    PolygonalGameObject tailCover = new PolygonalGameObject(tail,
-      new double[]{7, -12, 7.5, -10, 7.5, -7.5, 9, -7, 9, -6.5, 10.5, -7.5, 9, -9.5},
-      pikachuBrown,
+      null,
       black);
     
     //Scale to fit default camera
