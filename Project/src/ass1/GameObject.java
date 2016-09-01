@@ -258,17 +258,47 @@ public class GameObject {
      */
     public void draw(GL2 gl) {
         
-        // don't draw if it is not showing
-        if (!amShowing) {
-            return;
-        }
+      // don't draw if it is not showing
+      if (!amShowing) {
+          return;
+      }
 
-        // TODO: setting the model transform appropriately  
-        // draw the object (Call drawSelf() to draw the object itself) 
-        // and all its children recursively
-       
-        
+      // TODO: setting the model transform appropriately
+  
+      gl.glPushMatrix();
+      
+      double[] translationPos = getPosition();
+      gl.glTranslated(translationPos[0], translationPos[1], 0);
+      gl.glRotated(getRotation(), 0, 0, 1);
+      gl.glScaled(getScale(), getScale(), 1);
+  
+      // draw the object (Call drawSelf() to draw the object itself)
+      drawSelf(gl);
+  
+      // draw all its children recursively
+      for (GameObject gameObject : getChildren()) {
+        gameObject.draw(gl);
+      }
+      
+      gl.glPopMatrix();
     }
+  
+  
+    /**
+     *
+     * Compute the TRS model view matrix for this given GameObject
+     *
+     * @return a 3x3 matrix
+     */
+    private double[][] computeModelViewMatrix() {
+      double[][] translation = MathUtil.translationMatrix(myTranslation);
+      double[][] rotation = MathUtil.rotationMatrix(myRotation);
+      double[][] scale = MathUtil.scaleMatrix(myScale);
+      
+      return MathUtil.multiply(MathUtil.multiply(translation, rotation), scale); //(T*R)*S
+    }
+    
+    
 
     /**
      * Compute the object's position in world coordinates
@@ -278,10 +308,18 @@ public class GameObject {
      * @return a point in world coordinats in [x,y] form
      */
     public double[] getGlobalPosition() {
-        double[] p = new double[2];
-        return p; 
+      double[] p = new double[2];
+      double[][] m = computeModelViewMatrix();
+      
+      if (myParent != null)
+        m = MathUtil.multiply(myParent.computeModelViewMatrix(), m);
+      
+      p[0] = m[0][2];
+      p[1] = m[1][2];
+      
+      return p;
     }
-
+  
     /**
      * Compute the object's rotation in the global coordinate frame
      * 
@@ -291,7 +329,12 @@ public class GameObject {
      * normalized to the range (-180, 180) degrees. 
      */
     public double getGlobalRotation() {
-        return 0;
+      double[][] m = computeModelViewMatrix();
+      
+      if (myParent != null)
+        m = MathUtil.multiply(myParent.computeModelViewMatrix(), m);
+      
+      return MathUtil.normaliseAngle(Math.toDegrees(Math.atan2(m[1][0], m[0][0])));
     }
 
     /**
@@ -302,7 +345,12 @@ public class GameObject {
      * @return the global scale of the object 
      */
     public double getGlobalScale() {
-        return 1.0;
+      double[][] m = computeModelViewMatrix();
+  
+      if (myParent != null)
+        m = MathUtil.multiply(myParent.computeModelViewMatrix(), m);
+      
+      return Math.sqrt(Math.pow(m[0][0], 2) + Math.pow(m[1][0], 2) + Math.pow(m[2][0], 2));
     }
 
     /**
@@ -315,12 +363,41 @@ public class GameObject {
      * @param parent
      */
     public void setParent(GameObject parent) {
-        
-        myParent.myChildren.remove(this);
-        myParent = parent;
-        myParent.myChildren.add(this);
-        
-    }
+      //Get global TRS values for current GameObject
+      double[] globalPosition = getGlobalPosition();
+      double globalRotation = getGlobalRotation();
+      double globalScale = getGlobalScale();
+      
+      //Get global TRS values for NEW parent GameObject
+      double[] parentGlobalPosition = parent.getGlobalPosition();
+      double parentGlobalRotation = parent.getGlobalRotation();
+      double parentGlobalScale = parent.getGlobalScale();
     
+      //Get parent matrices for inverse values
+      //We simply use negative values to inverse translation, rotation and shear.
+      //We use 1/s to inverse scale.
+      double[][] inverseParentPosition = MathUtil.translationMatrix(new double[] {-parentGlobalPosition[0],
+                                                                                  -parentGlobalPosition[1]} );
+      double[][] inverseParentRotation = MathUtil.rotationMatrix(-parentGlobalRotation);
+      double[][] inverseParentScale = MathUtil.scaleMatrix(1 / parentGlobalScale);
+      
+      //Compute the model view matrix
+      double[][] parentInverseModelViewMatrix = MathUtil.multiply(MathUtil.multiply(inverseParentScale, inverseParentRotation),
+                                                                       inverseParentPosition); //(S*R)*T
+      
+      double[] globalPositionPoint = new double[] {globalPosition[0], globalPosition[1], 1}; //add missing 1
+      double[] finalPositionVector = MathUtil.multiply(parentInverseModelViewMatrix, globalPositionPoint);
+      
+      //Update the global position, rotation and scale
+      setPosition(finalPositionVector[0], finalPositionVector[1]);
+      setRotation(globalRotation - parentGlobalRotation);
+      setScale(globalScale / parentGlobalScale);
+    
+      //Remove child from current parent and add to new parent
+      myParent.myChildren.remove(this);
+      myParent = parent;
+      myParent.myChildren.add(this);
+      
+    }
 
 }

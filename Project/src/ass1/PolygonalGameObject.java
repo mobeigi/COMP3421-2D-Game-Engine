@@ -114,7 +114,6 @@ public class PolygonalGameObject extends GameObject {
      */
     @Override
     public void drawSelf(GL2 gl) {
-
         // TODO: Write this method
 
     }
