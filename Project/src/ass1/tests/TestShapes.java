@@ -31,7 +31,7 @@ public class TestShapes {
         c.setPosition(1, -1);  
         c.setScale(0.5);  
        
-        /*
+        
         //Create a line
         double lineCol [] = {0.5,1,0.5,1};
         LineGameObject l = new LineGameObject(ass1.GameObject.ROOT,0.5,0.5,1,1,lineCol);
@@ -46,7 +46,6 @@ public class TestShapes {
         //Create a circle that is a child of line l2       
         CircularGameObject c2 = new CircularGameObject(p,0.25,white,white);     
         c2.translate(-1,0);
-       */
       
 	}
    
