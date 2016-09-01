@@ -49,9 +49,10 @@ public class Camera extends GameObject {
       gl.glMatrixMode(GL2.GL_MODELVIEW);
       gl.glLoadIdentity();
       
+      double[] globalPosition = getGlobalPosition();
       gl.glScaled(1.0f/getGlobalScale(), 1.0f/getGlobalScale(), 1);
       gl.glRotated(-getGlobalRotation(), 0, 0, 1);
-      gl.glTranslated(-getGlobalPosition()[0], -getGlobalPosition()[1], 0);
+      gl.glTranslated(-globalPosition[0], -globalPosition[1], 0);
     }
 
     public void reshape(GL2 gl, int x, int y, int width, int height) {
