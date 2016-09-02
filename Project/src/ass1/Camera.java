@@ -7,7 +7,6 @@ import com.jogamp.opengl.glu.GLU;
 /**
  * The camera is a ass1.GameObject that can be moved, rotated and scaled like any other.
  *
- * TODO: You need to implement the setView() method.
  *       The methods you need to complete are at the bottom of the class
  *
  * @author malcolmr
@@ -40,12 +39,12 @@ public class Camera extends GameObject {
   
   
   public void setView(GL2 gl) {
-    // TODO 1. clear the view to the background colour
+    // Clear the view to the background colour
     float[] background = getBackground();
     gl.glClearColor(background[0], background[1], background[2], background[3]);
     gl.glClear(GL.GL_COLOR_BUFFER_BIT);
     
-    // TODO 2. set the view matrix to account for the camera's position
+    // Set the view matrix to account for the camera's position
     gl.glMatrixMode(GL2.GL_MODELVIEW);
     gl.glLoadIdentity();
     

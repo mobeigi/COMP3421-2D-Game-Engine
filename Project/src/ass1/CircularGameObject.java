@@ -114,7 +114,7 @@ public class CircularGameObject extends GameObject {
   
   
   /**
-   * TODO: Draw the Circle
+   * Draw the Circle
    *
    * if the fill colour is non-null, fill the circle with this colour
    * if the line colour is non-null, draw the circle with this colour
@@ -123,8 +123,6 @@ public class CircularGameObject extends GameObject {
    */
   @Override
   public void drawSelf(GL2 gl) {
-    // TODO: Write this method
-    
     double radius = getRadius();
     double[] centre = getCentre();
     double[] fillColour = getFillColour();

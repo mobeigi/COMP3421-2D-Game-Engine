@@ -3,7 +3,7 @@ package ass1;
 /**
  * MyCoolGameObject - Pikachu!
  *
- * !!!!READ ME!!!!
+ *############ README! ############
  * Use with white background for camera: camera.setBackground(new float[]{1,1,1,1});
  * Add line in TestMyCoolGameObject before createTestObjects();
  */

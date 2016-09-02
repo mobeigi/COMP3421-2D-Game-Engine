@@ -1,9 +1,7 @@
 package ass1;
 
 /**
- * A collection of useful math methods 
- *
- * TODO: The methods you need to complete are at the bottom of the class
+ * A collection of useful math methods
  *
  * @author malcolmr
  */
@@ -12,8 +10,8 @@ public class MathUtil {
   /**
    * Normalise an angle to the range [-180, 180)
    *
-   * @param angle
-   * @return
+   * @param angle input angle
+   * @return normalised angle
    */
   static public double normaliseAngle(double angle) {
     return ((angle + 180.0) % 360.0 + 360.0) % 360.0 - 180.0;
@@ -84,7 +82,7 @@ public class MathUtil {
   
   
   /**
-   * TODO: A 2D translation matrix for the given offset vector
+   * A 2D translation matrix for the given offset vector
    *
    * @param v offset vector
    * @return 3x3 array of doubles representing 2D translation matrix
@@ -100,7 +98,7 @@ public class MathUtil {
   }
   
   /**
-   * TODO: A 2D rotation matrix for the given angle
+   * A 2D rotation matrix for the given angle
    *
    * @param angle in degrees
    * @return 3x3 array of doubles representing 2D rotation matrix
@@ -118,7 +116,7 @@ public class MathUtil {
   }
   
   /**
-   * TODO: A 2D scale matrix that scales both axes by the same factor
+   * A 2D scale matrix that scales both axes by the same factor
    *
    * @param scale
    * @return 3x3 array of doubles representing 2D scale matrix

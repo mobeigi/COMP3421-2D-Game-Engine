@@ -76,7 +76,7 @@ public class LineGameObject extends GameObject {
   
   
   /**
-   * TODO: Draw the Circle
+   * Draw the line
    *
    * if the line colour is non-null, draw the line with this colour
    *
@@ -84,7 +84,6 @@ public class LineGameObject extends GameObject {
    */
   @Override
   public void drawSelf(GL2 gl) {
-    // TODO: Write this method
     double[] lineColour = getLineColour();
     
     if (lineColour != null) {

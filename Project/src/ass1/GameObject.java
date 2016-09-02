@@ -15,8 +15,6 @@ import com.jogamp.opengl.GL2;
  *
  * Each ass1.GameObject is offset from its parent by a rotation, a translation and a scale factor.
  *
- * TODO: The methods you need to complete are at the bottom of the class
- *
  * @author malcolmr
  */
 public class GameObject {
@@ -252,8 +250,6 @@ public class GameObject {
   /**
    * Draw the object and all of its descendants recursively.
    *
-   * TODO: Complete this method
-   *
    * @param gl
    */
   public void draw(GL2 gl) {
@@ -263,7 +259,7 @@ public class GameObject {
       return;
     }
     
-    // TODO: setting the model transform appropriately
+    //Setting the model transform appropriately
     gl.glMatrixMode(GL2.GL_MODELVIEW);
     gl.glPushMatrix();
     double[] translationPos = getPosition();
@@ -302,8 +298,6 @@ public class GameObject {
   /**
    * Compute the object's position in world coordinates
    *
-   * TODO: Write this method
-   *
    * @return a point in world coordinats in [x,y] form
    */
   public double[] getGlobalPosition() {
@@ -322,8 +316,6 @@ public class GameObject {
   /**
    * Compute the object's rotation in the global coordinate frame
    *
-   * TODO: Write this method
-   *
    * @return the global rotation of the object (in degrees) and
    * normalized to the range (-180, 180) degrees.
    */
@@ -339,8 +331,6 @@ public class GameObject {
   /**
    * Compute the object's scale in global terms
    *
-   * TODO: Write this method
-   *
    * @return the global scale of the object
    */
   public double getGlobalScale() {
@@ -355,9 +345,8 @@ public class GameObject {
   /**
    * Change the parent of a game object.
    *
-   * TODO: add code so that the object does not change its global position, rotation or scale
-   * when it is reparented. You may need to add code before and/or after
-   * the fragment of code that has been provided - depending on your approach
+   * Ensure the object does not change its global position, rotation or scale
+   * when it is reparented.
    *
    * @param parent
    */
