@@ -35,7 +35,7 @@ public class MathUtil {
    *
    * @param p A 3x3 matrix
    * @param q A 3x3 matrix
-   * @return
+   * @return A resulting 3x3 matrix
    */
   public static double[][] multiply(double[][] p, double[][] q) {
     
@@ -58,7 +58,7 @@ public class MathUtil {
    *
    * @param m A 3x3 matrix
    * @param v A 3x1 vector
-   * @return
+   * @return resulting multiplied vector
    */
   public static double[] multiply(double[][] m, double[] v) {
     
@@ -118,7 +118,7 @@ public class MathUtil {
   /**
    * A 2D scale matrix that scales both axes by the same factor
    *
-   * @param scale
+   * @param scale scale factor
    * @return 3x3 array of doubles representing 2D scale matrix
    */
   public static double[][] scaleMatrix(double scale) {
@@ -131,4 +131,16 @@ public class MathUtil {
     return m;
   }
   
+  /**
+   * Calculates straight line distance between two points.
+   *
+   * @param x1 x coordinate for first point
+   * @param y1 y coordinate for first point
+   * @param x2 x coordinate for second point
+   * @param y2 y coordinate for second point
+   * @return straight line distance between two points
+   */
+  public static double distance(double x1, double y1, double x2, double y2) {
+    return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+  }
 }

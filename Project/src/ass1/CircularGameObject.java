@@ -71,7 +71,7 @@ public class CircularGameObject extends GameObject {
   /**
    * Get the fill colour
    *
-   * @return
+   * @return fill colour
    */
   public double[] getFillColour() {
     return myFillColour;
@@ -91,7 +91,7 @@ public class CircularGameObject extends GameObject {
   /**
    * Get the outline colour.
    *
-   * @return
+   * @return outline colour
    */
   public double[] getLineColour() {
     return myLineColour;
@@ -160,5 +160,25 @@ public class CircularGameObject extends GameObject {
       gl.glVertex2d(x + centre[0], y + centre[1]);  //offset x and y by centre
     }
     gl.glEnd();
+  }
+  
+  /**
+   * Collision detection for CircularGameObjects
+   *
+   * @param point point in world coordinates
+   * @return true if point is inside of circular game object
+   */
+  @Override
+  public boolean collision(double[] point) {
+    //Convert point from world coordinate system to local coordinate system
+    double completePoint[] = {point[0], point[1], 1}; //add missing 1
+    double localPoint[] = MathUtil.multiply(computeInverseModelViewMatrix(), completePoint);
+    
+    //Compute distance to centre from point and compare with radius
+    //If distance is less or equal to the radius then it must be within the circle
+    double[] centre = getCentre();
+    double distance = Math.hypot(localPoint[0] - centre[0], localPoint[1] - centre[1]);
+    
+    return distance <= getRadius();
   }
 }

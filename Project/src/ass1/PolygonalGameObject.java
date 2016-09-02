@@ -42,7 +42,7 @@ public class PolygonalGameObject extends GameObject {
   /**
    * Get the polygon
    *
-   * @return
+   * @return get polygon points
    */
   public double[] getPoints() {
     return myPoints;
@@ -51,7 +51,7 @@ public class PolygonalGameObject extends GameObject {
   /**
    * Set the polygon
    *
-   * @param points
+   * @param points polygon points to set
    */
   public void setPoints(double[] points) {
     myPoints = points;
@@ -60,7 +60,7 @@ public class PolygonalGameObject extends GameObject {
   /**
    * Get the fill colour
    *
-   * @return
+   * @return fill colour vector
    */
   public double[] getFillColour() {
     return myFillColour;
@@ -80,7 +80,7 @@ public class PolygonalGameObject extends GameObject {
   /**
    * Get the outline colour.
    *
-   * @return
+   * @return line colour vector
    */
   public double[] getLineColour() {
     return myLineColour;
@@ -91,7 +91,7 @@ public class PolygonalGameObject extends GameObject {
    *
    * Setting the colour to null means the outline should not be drawn
    *
-   * @param lineColour
+   * @param lineColour line colour to set
    */
   public void setLineColour(double[] lineColour) {
     myLineColour = lineColour;
@@ -142,5 +142,66 @@ public class PolygonalGameObject extends GameObject {
       gl.glVertex2d(points[i], points[i+1]);
     }
     gl.glEnd();
+  }
+  
+  /**
+   * Collision detection for PolygonalGameObject
+   *
+   * @param point point in world coordinates
+   * @return true if point is inside of polygonal game object
+   */
+  @Override
+  public boolean collision(double[] point) {
+    //Convert point from world coordinate system to local coordinate system
+    double completePoint[] = {point[0], point[1], 1}; //add missing 1
+    double localPoint[] = MathUtil.multiply(computeInverseModelViewMatrix(), completePoint);
+
+    //Compute total number of vertices (note length of points should be even)
+    int nvert = getPoints().length / 2;
+    
+    //Store each x,y coordinate pair in two arrays
+    double[] vertx = new double[nvert];
+    double[] verty = new double[nvert];
+    double[] points = getPoints();
+    
+    for (int i = 0, numx = 0, numy = 0; i+1 < points.length; i+=2) {
+      vertx[numx++] = points[i];
+      verty[numy++] = points[i+1];
+    }
+    
+    //Use helper function to complete test using local coordinates for our test point
+    return pnpoly(nvert, vertx, verty, localPoint[0], localPoint[1]);
+  }
+  
+  /**
+   * Returns true if test point is inside of polygon.
+   * Functions by testing number of edges crossed by scaling x axis infinitely. An odd number of edges crossed
+   * indicates a collision has occurred (point within polygon).
+   *
+   * Limitation: Does not correctly classify all points exactly on boundary/edge. This functionality was not added
+   * for the purposes of this assignment. To help, the inequalities were all changes to include comparison (=)
+   * in the function below.
+   *
+   * Method by W. Randolph Franklin. See link below for code source.
+   *
+   * @param nvert total number of vertices in polygon
+   * @param vertx list of all x coordinates for polygons vertices
+   * @param verty list of all y coordinates for polygons vertices
+   * @param testx the x coordinate of point being tested
+   * @param testy the y coordinate of point being tested
+   * @see <a href="https://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html">PNPOLY - Point Inclusion in Polygon Test</a>
+   * @return true if test point (testx, tesy) collide with polygon
+   */
+  public boolean pnpoly(int nvert, double[] vertx, double[] verty, double testx, double testy)
+  {
+    boolean c = false;
+    int i, j = 0;
+    for (i = 0, j = nvert-1; i < nvert; j = i++) {
+      if ( ((verty[i]>=testy) != (verty[j]>=testy)) &&
+        (testx <= (vertx[j]-vertx[i]) * (testy-verty[i]) / (verty[j]-verty[i]) + vertx[i]) )
+        c = !c;
+    }
+    
+    return c;
   }
 }

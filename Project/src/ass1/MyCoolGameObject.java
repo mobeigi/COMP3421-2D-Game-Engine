@@ -10,13 +10,21 @@ package ass1;
 
 public class MyCoolGameObject extends GameObject {
   
+  public MyCoolGameObject(GameObject parent) {
+    super(parent);
+    drawMyCoolGameObject();
+  }
+  
   public MyCoolGameObject() {
     super(GameObject.ROOT);
-    
+    drawMyCoolGameObject();
+  }
+  
+  private void drawMyCoolGameObject() {
     //Colours
-    double[] pikachuYellow = {255/255f, 230/255f, 45/255f, 1};
     double[] black = {0,0,0,1};
     double[] white = {1,1,1,1};
+    double[] pikachuYellow = {255/255f, 230/255f, 45/255f, 1};
     double[] pikachuRed = {233/255f, 41/255f, 41/255f, 1};
     double[] pikachuBrown = {92/255f, 54/255f, 19/255f, 1};
     

@@ -94,6 +94,26 @@ public class GameEngine implements GLEventListener {
     }
   }
   
+  /**
+   * Collision detection
+   *
+   * @param p point in world coordinates
+   * @return list of any PolygonalGameObjects, CircularGameObjects or LineGameObjects in the scene-graph which contain that point
+   */
+  public List<GameObject> collision(double[] p) {
+    // take a copy of the ALL_OBJECTS list to avoid errors
+    // if new objects are created in the update
+    List<GameObject> objects = new ArrayList<GameObject>(GameObject.ALL_OBJECTS);
+    List<GameObject> collidingObjects = new ArrayList<GameObject>();
+    
+    //Process all objects
+    for (GameObject g : objects) {
+      if (g.collision(p))
+        collidingObjects.add(g);
+    }
+    
+    return collidingObjects;
+  }
   
   
 }

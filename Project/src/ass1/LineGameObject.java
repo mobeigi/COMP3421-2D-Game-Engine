@@ -10,6 +10,7 @@ import com.jogamp.opengl.GL2;
  */
 public class LineGameObject extends GameObject {
   
+  private static final double EPSILON = 0.001;
   private double point1[];
   private double point2[];
   private double[] myLineColour;
@@ -28,7 +29,7 @@ public class LineGameObject extends GameObject {
                         double x2, double y2,
                         double[] lineColour) {
     super(parent);
-    this.point1 = new double[]{x1,y1};
+    this.point1 = new double[]{x1, y1};
     this.point2 = new double[]{x2, y2};
     myLineColour = lineColour;
   }
@@ -108,5 +109,36 @@ public class LineGameObject extends GameObject {
     gl.glVertex2d(point1[0], point1[1]);
     gl.glVertex2d(point2[0], point2[1]);
     gl.glEnd();
+  }
+  
+  /**
+   * Collision detection for LineGameObjects using lerping (linear interpolation) between two points P, Q
+   *
+   * @param point
+   * @return
+   */
+  @Override
+  public boolean collision(double[] point) {
+    //Create PQ points
+    double[] point1 = getPoint1();
+    double[] point2 = getPoint2();
+    
+    double[] P = {point1[0], point1[1], 1};
+    double[] Q = {point2[0], point2[1], 1};
+    
+    //Convert our P,Q points from local coordinates to world coordinates
+    double[][] modelViewMatrix = computeModelViewMatrix();
+    double[] globalP = MathUtil.multiply(modelViewMatrix, P);
+    double[] globalQ = MathUtil.multiply(modelViewMatrix, Q);
+    
+    //To determine if point lies on line, compute the straight line distance from P to the point,
+    //From Q to the point and from P to Q.
+    //Then, if (distanceP2Point + distanceQ2Point) == distancePQ, then the point must lie on the
+    //straight line between P and Q
+    double distanceP2Point = MathUtil.distance(globalP[0], globalP[1], point[0], point[1]);
+    double distanceQ2Point = MathUtil.distance(globalQ[0], globalQ[1], point[0], point[1]);
+    double distancePQ = MathUtil.distance(globalP[0], globalP[1], globalQ[0], globalQ[1]);
+    
+    return (Math.abs((distanceP2Point + distanceQ2Point) - distancePQ) <= EPSILON); //margin for rounding errors
   }
 }

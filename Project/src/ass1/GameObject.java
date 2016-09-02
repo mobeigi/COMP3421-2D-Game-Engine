@@ -61,7 +61,7 @@ public class GameObject {
    *
    * New objects are created at the same location, orientation and scale as the parent.
    *
-   * @param parent
+   * @param parent parent GameObject to assign to gameobject
    */
   public GameObject(GameObject parent) {
     myParent = parent;
@@ -96,7 +96,7 @@ public class GameObject {
   /**
    * Get the parent of this game object
    *
-   * @return
+   * @return parent of this game object
    */
   public GameObject getParent() {
     return myParent;
@@ -105,7 +105,7 @@ public class GameObject {
   /**
    * Get the children of this object
    *
-   * @return
+   * @return list of children of this object
    */
   public List<GameObject> getChildren() {
     return myChildren;
@@ -114,7 +114,7 @@ public class GameObject {
   /**
    * Get the local rotation (in degrees)
    *
-   * @return
+   * @return local rotation (in degrees)
    */
   public double getRotation() {
     return myRotation;
@@ -122,8 +122,6 @@ public class GameObject {
   
   /**
    * Set the local rotation (in degrees)
-   *
-   * @return
    */
   public void setRotation(double rotation) {
     myRotation = MathUtil.normaliseAngle(rotation);
@@ -132,7 +130,7 @@ public class GameObject {
   /**
    * Rotate the object by the given angle (in degrees)
    *
-   * @param angle
+   * @param angle angle to rotate object by (in degrees)
    */
   public void rotate(double angle) {
     myRotation += angle;
@@ -142,7 +140,7 @@ public class GameObject {
   /**
    * Get the local scale
    *
-   * @return
+   * @return local scale
    */
   public double getScale() {
     return myScale;
@@ -151,7 +149,7 @@ public class GameObject {
   /**
    * Set the local scale
    *
-   * @param scale
+   * @param scale scale to set
    */
   public void setScale(double scale) {
     myScale = scale;
@@ -160,7 +158,7 @@ public class GameObject {
   /**
    * Multiply the scale of the object by the given factor
    *
-   * @param factor
+   * @param factor factor to multiply object scale with
    */
   public void scale(double factor) {
     myScale *= factor;
@@ -169,7 +167,7 @@ public class GameObject {
   /**
    * Get the local position of the object
    *
-   * @return
+   * @return local position of object
    */
   public double[] getPosition() {
     double[] t = new double[2];
@@ -182,8 +180,8 @@ public class GameObject {
   /**
    * Set the local position of the object
    *
-   * @param x
-   * @param y
+   * @param x x coord to set for local position
+   * @param y y coord to set for local position
    */
   public void setPosition(double x, double y) {
     myTranslation[0] = x;
@@ -193,8 +191,8 @@ public class GameObject {
   /**
    * Move the object by the specified offset in local coordinates
    *
-   * @param dx
-   * @param dy
+   * @param dx change in x to offset position
+   * @param dy change in y to offset position
    */
   public void translate(double dx, double dy) {
     myTranslation[0] += dx;
@@ -204,7 +202,7 @@ public class GameObject {
   /**
    * Test if the object is visible
    *
-   * @return
+   * @return true if object is visible
    */
   public boolean isShowing() {
     return amShowing;
@@ -214,7 +212,7 @@ public class GameObject {
    * Set the showing flag to make the object visible (true) or invisible (false).
    * This flag should also apply to all descendents of this object.
    *
-   * @param showing
+   * @param showing set to true if object should be visible
    */
   public void show(boolean showing) {
     amShowing = showing;
@@ -242,6 +240,17 @@ public class GameObject {
     // do nothing
   }
   
+  
+  /**
+   * Checks if point collides with game object
+   *
+   * Override this in subclasses.
+   *
+   * @param gl
+   */
+  public boolean collision(double[] point) {
+    return false;
+  }
   
   // ===========================================
   // COMPLETE THE METHODS BELOW
@@ -283,9 +292,9 @@ public class GameObject {
    *
    * Compute the TRS model view matrix for this given GameObject
    *
-   * @return a 3x3 matrix
+   * @return a 3x3 model view matrix
    */
-  private double[][] computeModelViewMatrix() {
+  public double[][] computeModelViewMatrix() {
     double[][] translation = MathUtil.translationMatrix(myTranslation);
     double[][] rotation = MathUtil.rotationMatrix(myRotation);
     double[][] scale = MathUtil.scaleMatrix(myScale);
@@ -293,6 +302,20 @@ public class GameObject {
     return MathUtil.multiply(MathUtil.multiply(translation, rotation), scale); //(T*R)*S
   }
   
+  /**
+   *
+   * Compute the SRT model view matrix for this given GameObject.
+   * Where the order of changes are reversed and changes are inversed.
+   *
+   * @return a 3x3 model view matrix
+   */
+  public double[][] computeInverseModelViewMatrix() {
+    double[][] invRotation = MathUtil.rotationMatrix(-myRotation);
+    double[][] invScale = MathUtil.scaleMatrix(1/myScale);
+    double[][] invTranslation = MathUtil.translationMatrix(new double[] {-myTranslation[0], -myTranslation[1]});
+    
+    return MathUtil.multiply(MathUtil.multiply(invScale, invRotation), invTranslation); //(S*R)*T
+  }
   
   
   /**
@@ -348,7 +371,7 @@ public class GameObject {
    * Ensure the object does not change its global position, rotation or scale
    * when it is reparented.
    *
-   * @param parent
+   * @param parent new parent for game object
    */
   public void setParent(GameObject parent) {
     //Get global TRS values for current GameObject
@@ -362,16 +385,7 @@ public class GameObject {
     double parentGlobalScale = parent.getGlobalScale();
     
     //Get parent matrices for inverse values
-    //We simply use negative values to inverse translation, rotation and shear.
-    //We use 1/s to inverse scale.
-    double[][] inverseParentPosition = MathUtil.translationMatrix(new double[] {-parentGlobalPosition[0],
-      -parentGlobalPosition[1]} );
-    double[][] inverseParentRotation = MathUtil.rotationMatrix(-parentGlobalRotation);
-    double[][] inverseParentScale = MathUtil.scaleMatrix(1 / parentGlobalScale);
-    
-    //Compute the model view matrix
-    double[][] parentInverseModelViewMatrix = MathUtil.multiply(MathUtil.multiply(inverseParentScale, inverseParentRotation),
-      inverseParentPosition); //(S*R)*T
+    double[][] parentInverseModelViewMatrix = parent.computeInverseModelViewMatrix();
     
     double[] globalPositionPoint = new double[] {globalPosition[0], globalPosition[1], 1}; //add missing 1
     double[] finalPositionVector = MathUtil.multiply(parentInverseModelViewMatrix, globalPositionPoint);
